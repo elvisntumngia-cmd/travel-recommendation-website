@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelBloom - Recommendations</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            color: white;
+            min-height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1600') no-repeat center center fixed;
+            background-size: cover;
+            overflow-x: hidden;
+        }
+        nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            background: rgba(11, 41, 53, 0.95); 
+            padding: 15px 50px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        .logo h2 { font-style: italic; font-weight: bold; }
+        .nav-links a { color: #cfd8dc; margin: 0 20px; text-decoration: none; font-weight: 500; cursor: pointer; }
+        .search-container { display: flex; align-items: center; background: white; border-radius: 25px; padding: 4px 15px; width: 380px; }
+        .search-container input { border: none; outline: none; width: 100%; font-size: 14px; color: #333; }
+        .search-container button { border: none; padding: 8px 18px; border-radius: 20px; font-weight: bold; cursor: pointer; margin-left: 5px; }
+        .btn-search { background: #147a75; color: white; }
+        .btn-clear { background: #26a69a; color: white; }
+        .social-sidebar { position: fixed; left: 25px; top: 45%; display: flex; flex-direction: column; gap: 25px; z-index: 99; }
+        .social-sidebar a { color: white; font-size: 20px; text-decoration: none; }
+        .main-frame { display: flex; margin-top: 100px; padding: 40px 80px; gap: 40px; }
+        .intro-block { flex: 1; max-width: 500px; }
+        .intro-block h1 { font-size: 48px; margin-bottom: 20px; }
+        .intro-block p { font-size: 16px; line-height: 1.6; color: #e0e0e0; margin-bottom: 30px; }
+        .btn-book { background: #147a75; color: white; border: none; padding: 12px 30px; font-size: 16px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .results-view { flex: 2; }
+        .results-header { font-size: 28px; color: #ff9100; font-weight: bold; margin-bottom: 20px; display: none; }
+        #results-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .result-card { background: white; border-radius: 12px; overflow: hidden; color: #333; }
+        .result-card img { width: 100%; height: 180px; object-fit: cover; }
+        .result-card-body { padding: 15px; }
+        .result-card h3 { font-size: 18px; color: #0b2935; margin-bottom: 8px; }
+        .result-card p { font-size: 13px; color: #555; line-height: 1.5; }
+        .page-layer { background: rgba(11, 41, 53, 0.85); border-radius: 15px; padding: 40px; width: 100%; }
+        .hidden { display: none !important; }
+        .team-box { display: flex; gap: 30px; flex-wrap: wrap; margin-top: 20px; }
+        .member-card { background: rgba(255,255,255,0.1); padding: 25px; border-radius: 10px; text-align: center; width: 240px; }
+        .contact-form { max-width: 500px; display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+        .contact-form input, .contact-form textarea { width: 100%; padding: 12px; border-radius: 6px; border: none; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo"><h2>TravelBloom</h2></div>
+        <div class="nav-links">
+            <a onclick="navigateTo('home')">Home</a>
+            <a onclick="navigateTo('about')">About Us</a>
+            <a onclick="navigateTo('contact')">Contact Us</a>
+        </div>
+        <div class="search-container" id="search-wrapper">
+            <input type="text" id="search-input" placeholder="Enter a destination or keyword...">
+            <button class="btn-search" id="btnSearch">Search</button>
+            <button class="btn-clear" id="btnClear">Clear</button>
+        </div>
+    </nav>
+
+    <div class="social-sidebar">
+        <a href="#">𝕏</a> <a href="#">f</a> <a href="#">📷</a> <a href="#">▶</a>
+    </div>
+
+    <div class="main-frame">
+        <div id="home-view" class="intro-block">
+            <h1>Explore, Discover, Travel</h1>
+            <p>Welcome to TravelBloom! We help you discover beautiful destinations worldwide. Explore pristine beaches, ancient historic temples, or dive deep into cultural country frameworks seamlessly.</p>
+            <button class="btn-book">Book Now</button>
+        </div>
+
+        <div id="results-view" class="results-view">
+            <div class="results-header" id="results-title">Search Results</div>
+            <div id="results-container"></div>
+        </div>
+
+        <div id="about-view" class="page-layer hidden">
+            <h1>ABOUT US</h1>
+            <p style="margin-bottom:20px;">Welcome to Our Company! We are a team of passionate individuals dedicated to providing excellent services/products to our customers. Our mission is to provide the best experience for people traveling to different destinations around the world.</p>
+            <h2>Our Team</h2>
+            <div class="team-box">
+                <div class="member-card"><h3>John Doe</h3><p style="color:#26a69a">CEO</p></div>
+                <div class="member-card"><h3>Celina Thomas</h3><p style="color:#26a69a">Team Lead</p></div>
+                <div class="member-card"><h3>Mike Tyson</h3><p style="color:#26a69a">Delivery Head</p></div>
+            </div>
+        </div>
+
+        <div id="contact-view" class="page-layer hidden">
+            <h1>CONTACT US</h1>
+            <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent!'); this.reset();">
+                <input type="text" placeholder="Enter your name" required>
+                <input type="email" placeholder="Enter your email" required>
+                <textarea rows="5" placeholder="Enter your message" required></textarea>
+                <button type="submit" class="btn-book">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="travel_recommendation.js"></script>
+</body>
+</html>
